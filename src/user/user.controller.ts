@@ -20,9 +20,10 @@ export class UsersController{
     async addUser(
         @Body('email') email:string,
         @Body('password') password:string,
-        @Body('name') name:string
+        @Body('name') name:string,
+        createdDate:Date
     ){
-        const generatedId = await this.userService.insertUser(email, password,name)
+        const generatedId = await this.userService.insertUser(email, password,name,createdDate)
         return {id:generatedId}
     }
 
@@ -42,12 +43,13 @@ export class UsersController{
 
     @Patch(':id')
     async updateUser(
-        @Param('id') id:string,
-        @Body('email') email:string,
-        @Body('password')password:string,
-        @Body('name')name:string
+        @Param('id') id?:string,
+        @Body('email') email?:string,
+        @Body('password') password?:string,
+        @Body('name') name?:string
     ){
         await this.userService.patchUserByEmail(id , email, password, name)
+        await this.userService.getUserById(id)
         return {id:id}
     }
 

@@ -8,6 +8,7 @@ import {
     Param,
     Body
 } from '@nestjs/common';
+import { ObjectId } from 'mongoose';
 
 import { OrderService } from './order.service';
 
@@ -20,11 +21,12 @@ export class OrderController{
         @Body('title') orderTitle : string,
         @Body('desc') orderDesc : string,
         @Body('price') orderPrice : number,
-        @Body('userId') userId : string,
+        @Body('userId') userId : ObjectId,
+        @Body('vehicleId') vehicleId : ObjectId,
         createdDate : Date
     ){
         const generatedId = await this.orderService.insertOrder(
-            orderDesc, orderTitle,orderPrice,userId,createdDate
+            orderDesc, orderTitle,orderPrice,userId,createdDate,vehicleId
         );
         return {id:generatedId}
     }
@@ -42,12 +44,13 @@ export class OrderController{
 
     @Patch(':id')
     async updateOrder(
-        @Param('id') orderId : string,
-        @Body('title') orderTitle:string,
-        @Body('price') orderPrice:number,
-        @Body('desc') orderDesc:string,
+        @Param('id') orderId?:string,
+        @Body('title') orderTitle?:string,
+        @Body('price') orderPrice?:number,
+        @Body('desc') orderDesc?:string,
+        @Body('vehicleId') ordervehicleId?: ObjectId,
         ){
-            await this.orderService.updateOrder(orderId, orderTitle, orderPrice , orderDesc);
+            await this.orderService.updateOrder(orderId, orderTitle, orderPrice , orderDesc,ordervehicleId);
             return {id : orderId};
         }
 

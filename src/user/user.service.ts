@@ -9,13 +9,14 @@ export class UserService {
         @InjectModel('User') private readonly userModel: Model<User>
     ){}
 
-    async insertUser(name: string , password: string , email: string){
+    async insertUser(name: string , password: string , email: string , createdDate: Date){
         const newUser = new this.userModel({
             name,
             email,
-            password
+            password,
+            createdDate : Date.now()
         });
-        const result = await newUser.save()
+        const result = await newUser.save() 
         return result.id as string;
     }
 
@@ -25,7 +26,8 @@ export class UserService {
             id: user.id,
             name: user.name,
             email : user.email,
-            password: user.password
+            password: user.password,
+            createdDate: user.createdDate
         }))
     }
 
@@ -35,7 +37,8 @@ export class UserService {
             id: user.id,
             name: user.name,
             email: user.email,
-            password: user.password
+            password: user.password,
+            createdDate: user.createdDate
         }
     }
 

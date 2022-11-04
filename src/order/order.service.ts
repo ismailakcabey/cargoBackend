@@ -1,6 +1,6 @@
 import { Injectable , NotFoundException} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, ObjectId, Types } from "mongoose";
 import { Order } from './order.model'
 
 @Injectable()
@@ -10,12 +10,13 @@ export class OrderService {
         @InjectModel('Order') private readonly  orderModel : Model<Order>,
     ){}
 
-    async insertOrder(title:string , desc:string , price:number , userId:string , createDate:Date) {
+    async insertOrder(title:string , desc:string , price:number , userId:ObjectId , createDate:Date , vehicleId:ObjectId) {
         const newOrder = new this.orderModel({
             title,
             desc,
             price,
             userId,
+            vehicleId,
             createDate : Date.now()
         });
         const result = await newOrder.save();
@@ -31,7 +32,8 @@ export class OrderService {
                 desc: order.desc,
                 price: order.price,
                 userId: order.userId,
-                createdDate: order.createdDate
+                createdDate: order.createdDate,
+                vehicleId: order.vehicleId
             })
         )
     }
@@ -44,15 +46,17 @@ export class OrderService {
             desc : order.desc,
             price: order.price,
             userId: order.userId,
-            createdDate : order.createdDate
+            createdDate : order.createdDate,
+            vehicleId: order.vehicleId
         }
     }
 
-    async updateOrder(title: string, desc: string,price: number,orderId:string){
+    async updateOrder(title: string, desc: string,price: number,orderId:string , vehicleId:ObjectId){
         const order = await this.orderModel.findByIdAndUpdate(orderId);
         if(title)order.title = title;
         if(price)order.price = price;
         if(desc)order.desc = desc;
+        if(vehicleId)vehicleId = vehicleId;
         order.save();
     }
 

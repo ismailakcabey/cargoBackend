@@ -17,6 +17,10 @@ export const OrderSchema = new mongoose.Schema({
         type :mongoose.Types.ObjectId ,
         required:true
     },
+    vehicleId: {
+        type :mongoose.Types.ObjectId ,
+        required:true
+    },
     createDate:{
         type:Date,
         required:true
@@ -29,6 +33,7 @@ export interface Order extends mongoose.Document{
     desc:string;
     price:number;
     userId:mongoose.Types.ObjectId,
-    createdDate:Date
+    createdDate:Date,
+    vehicleId:mongoose.Types.ObjectId
 }
 
