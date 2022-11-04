@@ -10,11 +10,13 @@ export class OrderService {
         @InjectModel('Order') private readonly  orderModel : Model<Order>,
     ){}
 
-    async insertOrder(title:string , desc:string , price:number) {
+    async insertOrder(title:string , desc:string , price:number , userId:string , createDate:Date) {
         const newOrder = new this.orderModel({
             title,
             desc,
-            price
+            price,
+            userId,
+            createDate : Date.now()
         });
         const result = await newOrder.save();
         return result.id as string;
@@ -27,7 +29,9 @@ export class OrderService {
                 id: order.id,
                 title: order.title,
                 desc: order.desc,
-                price: order.price
+                price: order.price,
+                userId: order.userId,
+                createdDate: order.createdDate
             })
         )
     }
@@ -38,7 +42,9 @@ export class OrderService {
             id : order.id,
             title: order.title,
             desc : order.desc,
-            price: order.price
+            price: order.price,
+            userId: order.userId,
+            createdDate : order.createdDate
         }
     }
 
