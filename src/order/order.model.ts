@@ -34,6 +34,6 @@ export interface Order extends mongoose.Document{
     price:number;
     userId:mongoose.Types.ObjectId,
     createdDate:Date,
-    vehicleId:mongoose.Types.ObjectId
+    vehicleId:mongoose.Schema.Types.ObjectId
 }
 

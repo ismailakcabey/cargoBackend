@@ -58,7 +58,7 @@ export class OrderService {
         if(body.price)order.price = body.price;
         if(body.desc)order.desc = body.desc;
         if(body.vehicleId)order.vehicleId = body.vehicleId;
-        console.log(body)
+        console.log(order)
         order.save();
     }
 
