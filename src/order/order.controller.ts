@@ -9,6 +9,7 @@ import {
     Body
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
+import { OrderDto } from './order.dto';
 
 import { OrderService } from './order.service';
 
@@ -45,12 +46,9 @@ export class OrderController{
     @Patch(':id')
     async updateOrder(
         @Param('id') orderId?:string,
-        @Body('title') orderTitle?:string,
-        @Body('price') orderPrice?:number,
-        @Body('desc') orderDesc?:string,
-        @Body('vehicleId') ordervehicleId?: ObjectId,
+        @Body() body? : OrderDto
         ){
-            await this.orderService.updateOrder(orderId, orderTitle, orderPrice , orderDesc,ordervehicleId);
+            await this.orderService.updateOrder(orderId, body);
             return {id : orderId};
         }
 

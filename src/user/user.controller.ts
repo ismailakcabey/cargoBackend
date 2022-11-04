@@ -6,6 +6,7 @@ import { Controller ,
         Patch,
         Param,
         Body} from "@nestjs/common";
+import { UserDto } from "./user.dto";
 import { UserService } from "./user.service";
 
 @Controller('users')
@@ -44,12 +45,9 @@ export class UsersController{
     @Patch(':id')
     async updateUser(
         @Param('id') id?:string,
-        @Body('email') email?:string,
-        @Body('password') password?:string,
-        @Body('name') name?:string
+        @Body() body?:UserDto
     ){
-        await this.userService.patchUserByEmail(id , email, password, name)
-        await this.userService.getUserById(id)
+        await this.userService.patchUserByEmail(id , body)
         return {id:id}
     }
 

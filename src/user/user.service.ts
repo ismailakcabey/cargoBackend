@@ -1,6 +1,7 @@
 import { Injectable , NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { UserDto } from "./user.dto";
 import { User } from "./user.model";
 
 @Injectable()
@@ -42,11 +43,12 @@ export class UserService {
         }
     }
 
-    async patchUserByEmail(id: string, email: string , password: string , name: string){
+    async patchUserByEmail(id: string, body: UserDto){
         const user = await this.userModel.findByIdAndUpdate(id);
-        if(name)user.name = name;
-        if(email)user.email = email;
-        if(password)user.password = password;
+        if(body?.name)user.name = body.name;
+        if(body?.email)user.email = body.name;
+        if(body?.password)user.password = body.password;
+        console.log(user)
         user.save();
     }
 
