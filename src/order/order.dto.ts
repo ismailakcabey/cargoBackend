@@ -13,6 +13,7 @@ import {
   import { IsObjectId } from 'class-validator-mongo-object-id';
   import { ApiProperty } from '@nestjs/swagger';
 import { ObjectId } from 'mongoose';
+import { orderType } from './order.enum';
 
   export class OrderDto {
     @ApiProperty({
@@ -56,4 +57,14 @@ import { ObjectId } from 'mongoose';
     })
     @IsObjectId()
     vehicleId?: ObjectId;
+
+    @ApiProperty({
+      nullable: false,
+      enum: orderType,
+      example: 1,
+    })
+    @IsEnum(orderType)
+    @IsNotEmpty()
+    status: orderType;
+    orderType?: number;
   }

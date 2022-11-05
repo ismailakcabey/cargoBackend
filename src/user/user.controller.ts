@@ -22,9 +22,10 @@ export class UsersController{
         @Body('email') email:string,
         @Body('password') password:string,
         @Body('name') name:string,
+        @Body('userType') userType:number,
         createdDate:Date
     ){
-        const generatedId = await this.userService.insertUser(email, password,name,createdDate)
+        const generatedId = await this.userService.insertUser(email, password,name,createdDate,userType)
         return {id:generatedId}
     }
 

@@ -11,13 +11,14 @@ export class OrderService {
         @InjectModel('Order') private readonly  orderModel : Model<Order>,
     ){}
 
-    async insertOrder(title:string , desc:string , price:number , userId:ObjectId , createDate:Date , vehicleId:ObjectId) {
+    async insertOrder(title:string , desc:string , price:number , userId:ObjectId , createDate:Date , vehicleId:ObjectId , orderType : number) {
         const newOrder = new this.orderModel({
             title,
             desc,
             price,
             userId,
             vehicleId,
+            orderType,
             createDate : Date.now()
         });
         const result = await newOrder.save();
@@ -34,7 +35,8 @@ export class OrderService {
                 price: order.price,
                 userId: order.userId,
                 createdDate: order.createdDate,
-                vehicleId: order.vehicleId
+                vehicleId: order.vehicleId,
+                orderType: order.orderType,
             })
         )
     }
@@ -48,7 +50,8 @@ export class OrderService {
             price: order.price,
             userId: order.userId,
             createdDate : order.createdDate,
-            vehicleId: order.vehicleId
+            vehicleId: order.vehicleId,
+            orderType: order.orderType
         }
     }
 
@@ -58,6 +61,7 @@ export class OrderService {
         if(body.price)order.price = body.price;
         if(body.desc)order.desc = body.desc;
         if(body.vehicleId)order.vehicleId = body.vehicleId;
+        if(body.orderType)order.orderType = body.orderType;
         console.log(order)
         order.save();
     }

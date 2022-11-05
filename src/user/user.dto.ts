@@ -9,7 +9,7 @@ import {
     IsDate,
     isString,
   } from 'class-validator';
-
+  import { userType } from './user.enum';
   import { ApiProperty } from '@nestjs/swagger';
 
   export class UserDto {
@@ -42,4 +42,14 @@ import {
     })
     @IsString()
       id?: string;
+
+      @ApiProperty({
+        nullable: false,
+        enum: userType,
+        example: 1,
+      })
+      @IsEnum(userType)
+      @IsNotEmpty()
+      status: userType;
+      userType?: number;
   }

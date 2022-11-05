@@ -24,10 +24,11 @@ export class OrderController{
         @Body('price') orderPrice : number,
         @Body('userId') userId : ObjectId,
         @Body('vehicleId') vehicleId : ObjectId,
+        @Body('orderType') orderType : number,
         createdDate : Date
     ){
         const generatedId = await this.orderService.insertOrder(
-            orderDesc, orderTitle,orderPrice,userId,createdDate,vehicleId
+            orderDesc, orderTitle,orderPrice,userId,createdDate,vehicleId,orderType
         );
         return {id:generatedId}
     }

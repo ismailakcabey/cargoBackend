@@ -16,6 +16,10 @@ export const UserSchema = new mongoose.Schema({
     createdDate: {
         type:Date,
         required:true
+    },
+    userType: {
+        type: Number,
+        required:true
     }
 })
 
@@ -25,4 +29,5 @@ export interface User extends mongoose.Document{
     email:string;
     password:string;
     createdDate:Date;
+    userType:number;
 }
