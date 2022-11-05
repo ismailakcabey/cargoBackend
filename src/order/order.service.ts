@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model, ObjectId, Types } from "mongoose";
 import { OrderDto } from "./order.dto";
 import { Order } from './order.model'
-
+var fs = require('fs');
 @Injectable()
 export class OrderService {
 
@@ -71,6 +71,15 @@ export class OrderService {
         if (result === null) {
             throw new NotFoundException('Could not find product.');
           }
+    }
+
+    async getAllOrderExcel(){
+        const orders = await this.orderModel.find().exec();
+        
+        fs.appendFile('mynewfile1.xlsx', orders, function (err) {
+            if (err) throw err;
+            console.log('Saved!');
+          });
     }
 
 }
