@@ -42,3 +42,11 @@ export interface Order extends mongoose.Document{
     orderType:number;
 }
 
+export interface OrderExcel extends mongoose.Document{
+    
+    title:string;
+    desc:string;
+    price:number;
+    createdDate:Date,
+    orderType:number;
+}

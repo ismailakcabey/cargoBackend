@@ -2,13 +2,14 @@ import { Injectable , NotFoundException} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, ObjectId, Types } from "mongoose";
 import { OrderDto } from "./order.dto";
-import { Order } from './order.model'
+import { Order , OrderExcel } from './order.model'
 var fs = require('fs');
 @Injectable()
 export class OrderService {
 
     constructor(
         @InjectModel('Order') private readonly  orderModel : Model<Order>,
+        @InjectModel('Order') private readonly  orderModelExcel : Model<OrderExcel>,
     ){}
 
     async insertOrder(title:string , desc:string , price:number , userId:ObjectId , createDate:Date , vehicleId:ObjectId , orderType : number) {
@@ -19,7 +20,7 @@ export class OrderService {
             userId,
             vehicleId,
             orderType,
-            createDate : Date.now()
+            createDate : Date()
         });
         const result = await newOrder.save();
         return result.id as string;
@@ -37,6 +38,19 @@ export class OrderService {
                 createdDate: order.createdDate,
                 vehicleId: order.vehicleId,
                 orderType: order.orderType,
+            })
+        )
+    }
+
+    async getExcel(){
+        const orders = await this.orderModelExcel.find().exec();
+        return orders.map(
+            order=> ({
+                title: order.title,
+                desc: order.desc,
+                price: order.price,
+                createdDate: order.createdDate,
+                orderType: order.orderType
             })
         )
     }
@@ -74,12 +88,15 @@ export class OrderService {
     }
 
     async getAllOrderExcel(){
-        const orders = await this.orderModel.find().exec();
         
-        fs.appendFile('mynewfile1.xlsx', orders, function (err) {
-            if (err) throw err;
-            console.log('Saved!');
-          });
+        const data = await this.getExcel()
+        console.log(data)
+        
+         
+           fs.appendFile('mynewfile1.xlsx', data, function (err) {
+               if (err) throw err;
+               console.log('Saved!');
+             });
     }
 
 }

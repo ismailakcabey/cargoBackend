@@ -39,6 +39,11 @@ export class OrderController{
         return orders
     }
 
+    @Get('/excel')
+    async getOrderExcel(){
+        const orders = await this.orderService.getAllOrderExcel();
+    }
+
     @Get(':id')
     async getOrder(@Param('id') id : string){
         return  this.orderService.getOrderSingle(id);
