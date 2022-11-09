@@ -33,14 +33,7 @@ export class UserService {
 
     async getUserById(id: string){
         const user = await this.userModel.findById(id);
-        return {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            password: user.password,
-            userType: user.userType,
-            createdDate: user.createdDate
-        }
+        return user
     }
 
     async patchUserByEmail(id: string, body: UserDto){

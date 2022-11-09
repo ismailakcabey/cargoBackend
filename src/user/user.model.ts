@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+import { userType } from "./user.enum";
 
 export const UserSchema = new mongoose.Schema({
     name:{
@@ -19,7 +20,8 @@ export const UserSchema = new mongoose.Schema({
     },
     userType: {
         type: Number,
-        required:true
+        required:true,
+        enum : userType
     }
 })
 
