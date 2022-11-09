@@ -31,18 +31,7 @@ export class OrderService {
         return {
             status : true,
             count : orders.length,
-            data : orders.map(
-                order=> ({
-                    id: order.id,
-                    title: order.title,
-                    desc: order.desc,
-                    price: order.price,
-                    userId: order.userId,
-                    createdDate: order.createdDate,
-                    vehicleId: order.vehicleId,
-                    orderType: order.orderType,
-                })
-            )
+            data : orders
         }
     }
 
@@ -61,16 +50,7 @@ export class OrderService {
 
     async getOrderSingle(OrderId: string){
         const order = await this.orderModel.findById(OrderId);
-        return {
-            id : order.id,
-            title: order.title,
-            desc : order.desc,
-            price: order.price,
-            userId: order.userId,
-            createdDate : order.createdDate,
-            vehicleId: order.vehicleId,
-            orderType: order.orderType
-        }
+        return order
     }
 
     async updateOrder(orderId: string , body : OrderDto){
