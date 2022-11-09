@@ -17,7 +17,11 @@ export const UserExpensesSchema = new mongoose.Schema({
     createdDate:{
         required : true,
         type : Date,
-    }
+    },
+    userId: {
+        type :mongoose.Types.ObjectId ,
+        required:true
+    },
 })
 
 export interface UserExpenses extends mongoose.Document{
@@ -25,4 +29,5 @@ export interface UserExpenses extends mongoose.Document{
     ExpensesType:number,
     amount:number,
     createdDate:Date,
+    userId:mongoose.Schema.Types.ObjectId,
 }

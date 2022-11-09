@@ -6,6 +6,7 @@ import { Controller ,
     Patch,
     Param,
     Body} from "@nestjs/common";
+import { ObjectId } from "mongoose";
 import { UserExpensesDto } from "./userExpenses.dto";
 import { UserExpensesService } from "./userExpenses.service";
 
@@ -19,9 +20,10 @@ export class UserExpensesController {
         async addExpenses(
             @Body('ExpensesType') ExpensesType : number,
             @Body('amount') amount : number,
+            @Body('userId') userId : ObjectId,
             createDate : Date,
         ){
-            const generatedId = await this.userExpensesService.insertExpenses(ExpensesType , createDate , amount);
+            const generatedId = await this.userExpensesService.insertExpenses(ExpensesType , createDate , amount , userId);
             return {id:generatedId};
         }
 

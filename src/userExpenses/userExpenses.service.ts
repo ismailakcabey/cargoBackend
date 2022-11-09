@@ -1,6 +1,6 @@
 import { Injectable , NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model , ObjectId} from "mongoose";
 import { UserExpensesDto } from "./userExpenses.dto";
 import { UserExpenses } from "./userExpenses.model";
 
@@ -10,10 +10,11 @@ export class UserExpensesService {
     @InjectModel('UserExpenses') private readonly userExpensesModel: Model<UserExpenses>
   ){}
 
-  async insertExpenses(ExpensesType: number , createdDate: Date , amount: number){
+  async insertExpenses(ExpensesType: number , createdDate: Date , amount: number , userId:ObjectId){
     const Expenses = new this.userExpensesModel({
         ExpensesType,
         amount,
+        userId,
         createdDate : Date.now()
     });
     const result = await Expenses.save() 

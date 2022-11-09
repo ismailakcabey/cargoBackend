@@ -10,9 +10,10 @@ import {
     IsNumber,
     isString,
 } from 'class-validator';
-
+import { IsObjectId } from 'class-validator-mongo-object-id';
 import { ExpensesType } from './userExpenses.enum';
 import { ApiProperty } from '@nestjs/swagger';
+import { ObjectId } from 'mongodb';
 
 export class UserExpensesDto{
     @ApiProperty({
@@ -36,4 +37,11 @@ export class UserExpensesDto{
         })
         @IsNumber()
         amount?: number;
+
+        @ApiProperty({
+            nullable: false,
+        })
+        @IsObjectId()
+        userId?: ObjectId;
+    
 }
