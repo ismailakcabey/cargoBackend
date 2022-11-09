@@ -11,6 +11,7 @@ import {
 import { ObjectId } from 'mongoose';
 import { OrderDto } from './order.dto';
 
+
 import { OrderService } from './order.service';
 
 @Controller('orders')
@@ -25,10 +26,11 @@ export class OrderController{
         @Body('userId') userId : ObjectId,
         @Body('vehicleId') vehicleId : ObjectId,
         @Body('orderType') orderType : number,
+        @Body('packageSize') packageSize : number,
         createdDate : Date
     ){
         const generatedId = await this.orderService.insertOrder(
-            orderDesc, orderTitle,orderPrice,userId,createdDate,vehicleId,orderType
+            orderDesc, orderTitle,orderPrice,userId,createdDate,vehicleId,orderType,packageSize
         );
         return {id:generatedId}
     }

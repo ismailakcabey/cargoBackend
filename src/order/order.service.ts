@@ -12,7 +12,7 @@ export class OrderService {
         @InjectModel('Order') private readonly  orderModelExcel : Model<OrderExcel>,
     ){}
 
-    async insertOrder(title:string , desc:string , price:number , userId:ObjectId , createDate:Date , vehicleId:ObjectId , orderType : number) {
+    async insertOrder(title:string , desc:string , price:number , userId:ObjectId , createDate:Date , vehicleId:ObjectId , orderType : number , packageSize:number) {
         const newOrder = new this.orderModel({
             title,
             desc,
@@ -20,6 +20,7 @@ export class OrderService {
             userId,
             vehicleId,
             orderType,
+            packageSize,
             createDate : Date.now()
         });
         const result = await newOrder.save();
@@ -60,6 +61,7 @@ export class OrderService {
         if(body.desc)order.desc = body.desc;
         if(body.vehicleId)order.vehicleId = body.vehicleId;
         if(body.orderType)order.orderType = body.orderType;
+        if(body.packageSize)order.packageSize = body.packageSize;
         console.log(order)
         order.save();
     }

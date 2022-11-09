@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+import { orderType , packageSize } from "./order.enum";
 
 export const OrderSchema = new mongoose.Schema({
     title:{
@@ -27,7 +28,13 @@ export const OrderSchema = new mongoose.Schema({
     },
     orderType: {
         type: Number,
-        required:true
+        required:true,
+        enum: orderType
+    },
+    packageSize: {
+        type: Number,
+        required:true,
+        enum: packageSize
     }
 })
 
@@ -40,6 +47,7 @@ export interface Order extends mongoose.Document{
     createdDate:Date,
     vehicleId:mongoose.Schema.Types.ObjectId,
     orderType:number;
+    packageSize:number;
 }
 
 export interface OrderExcel extends mongoose.Document{
