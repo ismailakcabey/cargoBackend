@@ -20,7 +20,7 @@ export class OrderService {
             userId,
             vehicleId,
             orderType,
-            createDate : Date()
+            createDate : Date.now()
         });
         const result = await newOrder.save();
         return result.id as string;
@@ -28,18 +28,22 @@ export class OrderService {
 
     async getOrders(){
         const orders = await this.orderModel.find().exec();
-        return orders.map(
-            order=> ({
-                id: order.id,
-                title: order.title,
-                desc: order.desc,
-                price: order.price,
-                userId: order.userId,
-                createdDate: order.createdDate,
-                vehicleId: order.vehicleId,
-                orderType: order.orderType,
-            })
-        )
+        return {
+            status : true,
+            count : orders.length,
+            data : orders.map(
+                order=> ({
+                    id: order.id,
+                    title: order.title,
+                    desc: order.desc,
+                    price: order.price,
+                    userId: order.userId,
+                    createdDate: order.createdDate,
+                    vehicleId: order.vehicleId,
+                    orderType: order.orderType,
+                })
+            )
+        }
     }
 
     async getExcel(){

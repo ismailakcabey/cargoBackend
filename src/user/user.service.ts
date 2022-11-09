@@ -24,14 +24,18 @@ export class UserService {
 
     async getUser(){
         const users = await this.userModel.find().exec();
-        return users.map(user =>({
-            id: user.id,
-            name: user.name,
-            email : user.email,
-            password: user.password,
-            userType: user.userType,
-            createdDate: user.createdDate
-        }))
+        return {
+            status : true,
+            count : users.length,
+            data : users.map(user =>({
+                id: user.id,
+                name: user.name,
+                email : user.email,
+                password: user.password,
+                userType: user.userType,
+                createdDate: user.createdDate
+            }))
+        }
     }
 
     async getUserById(id: string){
