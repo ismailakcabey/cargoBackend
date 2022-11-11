@@ -35,6 +35,12 @@ export class UsersController{
         return users;
     }
 
+    @Get('/email')
+    async getUserEmail(){
+        await this.userService.getUserEmail()
+        return
+    }
+
     @Get(':id')
     async getUser(
         @Param('id') id:string
