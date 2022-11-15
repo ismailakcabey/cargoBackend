@@ -4,11 +4,10 @@ import { Model } from "mongoose";
 import { UserDto } from "./user.dto";
 import { User } from "./user.model";
 
-
 @Injectable()
 export class UserService {
     constructor(
-        @InjectModel('User') private readonly userModel: Model<User>
+        @InjectModel('User') private readonly userModel: Model<User>,
     ){}
 
     async insertUser(name: string , password: string , email: string , createdDate: Date , userType: number){
@@ -34,6 +33,12 @@ export class UserService {
 
     async getUserEmail(){
         console.log("getUserEmai")
+    }
+
+    async loginByUser(userEmail: string , userPassword: string){
+        const users =  this.userModel.findOne({email: userEmail , password: userPassword})
+        console.log(users)
+        return users
     }
 
     async getUserById(id: string){

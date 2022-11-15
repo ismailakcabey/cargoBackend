@@ -25,7 +25,7 @@ export class UsersController{
         @Body('userType') userType:number,
         createdDate:Date
     ){
-        const generatedId = await this.userService.insertUser(email, password,name,createdDate,userType)
+        const generatedId = await this.userService.insertUser(name, password,email,createdDate,userType)
         return {id:generatedId}
     }
 
@@ -35,10 +35,12 @@ export class UsersController{
         return users;
     }
 
-    @Get('/email')
-    async getUserEmail(){
-        await this.userService.getUserEmail()
-        return
+    @Get('/login')
+    async getUserEmail(
+        @Body('email') email: string,
+        @Body('password') password: string
+    ){ 
+        return this.userService.loginByUser(email , password)
     }
 
     @Get(':id')
