@@ -8,12 +8,14 @@ import {
     Param,
     Body
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ObjectId } from 'mongoose';
 import { OrderDto } from './order.dto';
 
 
 import { OrderService } from './order.service';
 
+@ApiTags('Order')
 @Controller('orders')
 export class OrderController{
     constructor(private orderService:OrderService){}

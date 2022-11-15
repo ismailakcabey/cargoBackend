@@ -6,10 +6,12 @@ import { Controller ,
     Patch,
     Param,
     Body} from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { ObjectId } from "mongoose";
 import { UserExpensesDto } from "./userExpenses.dto";
 import { UserExpensesService } from "./userExpenses.service";
 
+@ApiTags('UserExpenses')
 @Controller("userExpenses")
 export class UserExpensesController {
 

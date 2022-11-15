@@ -6,9 +6,11 @@ import { Controller ,
         Patch,
         Param,
         Body} from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { UserDto } from "./user.dto";
 import { UserService } from "./user.service";
 
+@ApiTags('User')
 @Controller('users')
 export class UsersController{
     
@@ -23,7 +25,7 @@ export class UsersController{
         @Body('password') password:string,
         @Body('name') name:string,
         @Body('userType') userType:number,
-        createdDate:Date
+        createdDate:Date,
     ){
         const generatedId = await this.userService.insertUser(name, password,email,createdDate,userType)
         return {id:generatedId}
