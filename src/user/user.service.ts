@@ -31,14 +31,59 @@ export class UserService {
         }
     }
 
-    async getUserEmail(){
-        console.log("getUserEmai")
+    async getUserEmail(fromEmail: string, toEmail: string){
+        const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey("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")
+
+sgMail
+  .send({
+    to:{
+        email: toEmail,
+        name:"ismail"
+    },
+    from:{
+        
+        email: fromEmail,
+        name: 'İSMAİL AKÇA'
+    },
+    subject: 'adasdadsadasd',
+  templateId : "d-2c66c8c1c8564f6eab6605dafa98c30f"
+  })
+  .then(() => {
+    console.log('Email sent')
+    return {
+        status : true,
+        message : 'Email sent'
+
+    }
+  })
+  .catch((error) => {
+    return{
+        status:false,
+        message : error.response.body
+    }
+  })
     }
 
     async loginByUser(userEmail: string , userPassword: string){
-        const users =  this.userModel.findOne({email: userEmail , password: userPassword})
+        
+        try {
+            const users = await  this.userModel.findOne({email: userEmail , password: userPassword})
         console.log(users)
-        return users
+        if(users == null) {
+            return {
+                status:false,
+                data: "user not found"
+            }  
+        }
+        return {
+            status:true,
+            data: users
+        }
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     async getUserById(id: string){

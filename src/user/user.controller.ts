@@ -37,6 +37,15 @@ export class UsersController{
         return users;
     }
 
+    @Post('/email')
+    async sendEmail(
+        @Body('toEmail') toEmail:string,
+        @Body('fromEmail') fromEmail:string
+    ){
+        const email = await this.userService.getUserEmail(fromEmail , toEmail);
+        return email;
+    }
+
     @Get('/login')
     async getUserEmail(
         @Body('email') email: string,
