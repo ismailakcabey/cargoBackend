@@ -121,8 +121,8 @@ sgMail
         XLSX.writeFile(workBook, "users.xlsx")
         return{
             status : true,
-            message : "Excel file generated"
-
+            message : "Excel file generated",
+            workBook : workBook
         }
     }
 

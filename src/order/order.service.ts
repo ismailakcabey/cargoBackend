@@ -89,10 +89,10 @@ export class OrderService {
         XLSX.write(workBook, { bookType: "xlsx", type: "binary" })
     
         XLSX.writeFile(workBook, "orders.xlsx")
-        return {
+        return{
             status : true,
-            data : "successfully"
-
+            message : "Excel file generated",
+            workBook : workBook
         }
     }
 }

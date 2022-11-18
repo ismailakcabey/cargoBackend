@@ -52,10 +52,10 @@ export class UserExpensesService {
         XLSX.write(workBook, { bookType: "xlsx", type: "binary" })
     
         XLSX.writeFile(workBook, "expenses.xlsx")
-        return {
+        return{
             status : true,
-            data : "successfully"
-
+            message : "Excel file generated",
+            workBook : workBook
         }
     }
 
