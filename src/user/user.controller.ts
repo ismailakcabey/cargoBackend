@@ -37,6 +37,14 @@ export class UsersController{
         return users;
     }
 
+    @Get('/verify/:id')
+    async getVerify(
+        @Param('id') id:string
+    ){
+        const users = await this.userService.getUserEmailVerify(id)
+        return users;
+    }
+
     @Get('/excel')
     async getAllUserExcel(){
         const users = await this.userService.getUsersExcel()
@@ -46,10 +54,9 @@ export class UsersController{
     @Post('/email')
     async sendEmail(
         @Body('toEmail') toEmail:string,
-        @Body('fromEmail') fromEmail:string,
-        
+        @Body('id') id:string,
     ){
-        const email = await this.userService.getUserEmail(fromEmail , toEmail);
+        const email = await this.userService.getUserEmail(toEmail , id);
         return email;
     }
 

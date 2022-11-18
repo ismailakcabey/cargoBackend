@@ -37,6 +37,12 @@ import {
     @IsDate()
       createdDate?: Date;
 
+      @ApiProperty({
+        nullable: false,
+    })
+    @IsDate()
+      verify?: Boolean;
+
     @ApiProperty({
         nullable: false,
     })

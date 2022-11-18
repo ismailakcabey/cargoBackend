@@ -4,7 +4,8 @@ import { Model } from "mongoose";
 import { UserDto } from "./user.dto";
 import { User , UserExcel } from "./user.model";
 var fs = require('fs');
-const XLSX = require('xlsx')
+const XLSX = require('xlsx');
+
 @Injectable()
 export class UserService {
     constructor(
@@ -44,9 +45,9 @@ export class UserService {
         }
     }
 
-    async getUserEmail(fromEmail: string, toEmail: string){
+    async getUserEmail( toEmail: string , id:string){
         const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey("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")
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 sgMail
   .send({
@@ -56,16 +57,17 @@ sgMail
     },
     from:{
         
-        email: fromEmail,
+        email: process.env.MY_SECRET_EMAIL,
         name: 'İSMAİL AKÇA'
     },
     subject: 'adasdadsadasd',
     text:"dasasdadas",
-    html:"<p>dasasdadas</p>"
+    html:`<p>Mail doğrulama servisi ismail akca</p><a href="http://localhost:3000/users/verify/${id}">doğrula</a>`,
+    
     
   })
   .then(() => {
-    console.log('Email sent' + "toEmail : " + toEmail + "fromEmail : " + fromEmail );
+    console.log('Email sent' + "toEmail : " + toEmail  );
     return {
         status : true,
         message : 'Email sent'
@@ -110,6 +112,8 @@ sgMail
     async getUserEmailVerify(id: string){
         const user = await this.userModel.findByIdAndUpdate(id);
         user.verify = true
+        console.log(user)
+        user.save()
         return user
     }
 
