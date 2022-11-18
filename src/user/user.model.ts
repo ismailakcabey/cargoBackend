@@ -22,6 +22,11 @@ export const UserSchema = new mongoose.Schema({
         type: Number,
         required:true,
         enum : userType
+    },
+    verify:{
+        type:Boolean,
+        required:true,
+        default:false
     }
 })
 
@@ -32,6 +37,7 @@ export interface User extends mongoose.Document{
     password:string;
     createdDate:Date;
     userType:number;
+    verify:boolean;
 }
 
 export interface UserExcel extends mongoose.Document{
@@ -40,4 +46,5 @@ export interface UserExcel extends mongoose.Document{
     password:string;
     createdDate:Date;
     userType:number;
+    verify:boolean;
 }

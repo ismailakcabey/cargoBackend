@@ -20,8 +20,19 @@ export class UserService {
             userType,
             createdDate : Date.now()
         });
-        const result = await newUser.save() 
-        return result.id as string;
+        const users = await  this.userModel.findOne({email: email})
+        if(users == null){
+            const result = await newUser.save();
+            return result.id as string;
+        }
+        else{
+            return{
+                status : false,
+                message : "Email already exists"
+            }
+        }
+        
+        
     }
 
     async getUser(){
@@ -35,7 +46,7 @@ export class UserService {
 
     async getUserEmail(fromEmail: string, toEmail: string){
         const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey("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")
+sgMail.setApiKey("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")
 
 sgMail
   .send({
@@ -49,10 +60,12 @@ sgMail
         name: 'İSMAİL AKÇA'
     },
     subject: 'adasdadsadasd',
-  templateId : "d-2c66c8c1c8564f6eab6605dafa98c30f"
+    text:"dasasdadas",
+    html:"<p>dasasdadas</p>"
+    
   })
   .then(() => {
-    console.log('Email sent')
+    console.log('Email sent' + "toEmail : " + toEmail + "fromEmail : " + fromEmail );
     return {
         status : true,
         message : 'Email sent'
@@ -60,9 +73,10 @@ sgMail
     }
   })
   .catch((error) => {
+    console.log(error.response.body)
     return{
         status:false,
-        message : error.response.body
+        message : error
     }
   })
     }
@@ -90,6 +104,12 @@ sgMail
 
     async getUserById(id: string){
         const user = await this.userModel.findById(id);
+        return user
+    }
+
+    async getUserEmailVerify(id: string){
+        const user = await this.userModel.findByIdAndUpdate(id);
+        user.verify = true
         return user
     }
 

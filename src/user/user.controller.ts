@@ -46,7 +46,8 @@ export class UsersController{
     @Post('/email')
     async sendEmail(
         @Body('toEmail') toEmail:string,
-        @Body('fromEmail') fromEmail:string
+        @Body('fromEmail') fromEmail:string,
+        
     ){
         const email = await this.userService.getUserEmail(fromEmail , toEmail);
         return email;
@@ -65,6 +66,14 @@ export class UsersController{
         @Param('id') id:string
     ){
         const user = await this.userService.getUserById(id);
+        return user
+    }
+
+    @Get('/verify/:id')
+    async getUserVerify(
+        @Param('id') id:string
+    ){
+        const user = await this.userService.getUserEmailVerify(id);
         return user
     }
 
