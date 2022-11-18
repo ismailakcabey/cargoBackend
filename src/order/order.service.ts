@@ -4,6 +4,7 @@ import { Model, ObjectId, Types } from "mongoose";
 import { OrderDto } from "./order.dto";
 import { Order , OrderExcel } from './order.model'
 var fs = require('fs');
+const XLSX = require('xlsx')
 @Injectable()
 export class OrderService {
 
@@ -76,13 +77,22 @@ export class OrderService {
     async getAllOrderExcel(){
         
         const data = await this.getExcel()
-        console.log(data)
         
-         
-           fs.appendFile('mynewfile1.xlsx', data, function (err) {
-               if (err) throw err;
-               console.log('Saved!');
-             });
-    }
+        const workSheet = XLSX.utils.json_to_sheet(data);
+        const workBook = XLSX.utils.book_new();
+    
+        XLSX.utils.book_append_sheet(workBook, workSheet, "students")
+        // Generate buffer
+        XLSX.write(workBook, { bookType: 'xlsx', type: "buffer" })
+    
+        // Binary string
+        XLSX.write(workBook, { bookType: "xlsx", type: "binary" })
+    
+        XLSX.writeFile(workBook, "orders.xlsx")
+        return {
+            status : true,
+            data : "successfully"
 
+        }
+    }
 }

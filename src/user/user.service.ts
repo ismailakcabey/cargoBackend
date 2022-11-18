@@ -2,12 +2,14 @@ import { Injectable , NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { UserDto } from "./user.dto";
-import { User } from "./user.model";
-
+import { User , UserExcel } from "./user.model";
+var fs = require('fs');
+const XLSX = require('xlsx')
 @Injectable()
 export class UserService {
     constructor(
         @InjectModel('User') private readonly userModel: Model<User>,
+        @InjectModel('User') private readonly userModelExcel: Model<UserExcel>,
     ){}
 
     async insertUser(name: string , password: string , email: string , createdDate: Date , userType: number){
@@ -91,7 +93,40 @@ sgMail
         return user
     }
 
-    async patchUserByEmail(id: string, body: UserDto){
+    async getExcel(){
+        const users = await this.userModelExcel.find().exec();
+        return users.map(
+            user=> ({
+                name: user.name,
+                password: user.password,
+                createdDate: user.createdDate,
+                userType: user.userType,
+                email:user.email,
+            })
+        )
+    }
+
+    async getUsersExcel(){
+        const data = await this.getExcel()
+        const workSheet = XLSX.utils.json_to_sheet(data);
+        const workBook = XLSX.utils.book_new();
+    
+        XLSX.utils.book_append_sheet(workBook, workSheet, "students")
+        // Generate buffer
+        XLSX.write(workBook, { bookType: 'xlsx', type: "buffer" })
+    
+        // Binary string
+        XLSX.write(workBook, { bookType: "xlsx", type: "binary" })
+    
+        XLSX.writeFile(workBook, "users.xlsx")
+        return{
+            status : true,
+            message : "Excel file generated"
+
+        }
+    }
+
+    async patchUserById(id: string, body: UserDto){
         const user = await this.userModel.findByIdAndUpdate(id);
         if(body?.name)user.name = body.name;
         if(body?.email)user.email = body.name;

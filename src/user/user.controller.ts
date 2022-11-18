@@ -37,6 +37,12 @@ export class UsersController{
         return users;
     }
 
+    @Get('/excel')
+    async getAllUserExcel(){
+        const users = await this.userService.getUsersExcel()
+        return users;
+    }
+
     @Post('/email')
     async sendEmail(
         @Body('toEmail') toEmail:string,
@@ -67,7 +73,7 @@ export class UsersController{
         @Param('id') id?:string,
         @Body() body?:UserDto
     ){
-        await this.userService.patchUserByEmail(id , body)
+        await this.userService.patchUserById(id , body)
         return {id:id}
     }
 

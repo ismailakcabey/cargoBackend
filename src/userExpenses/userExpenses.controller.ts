@@ -35,6 +35,12 @@ export class UserExpensesController {
         return expenses;
         }
 
+        @Get('/excel')
+        async getAllExpensesExcel(){
+        const expenses = await this.userExpensesService.getAllExpensExcel()
+        return expenses;
+        }
+
         @Get(':id')
         async getUser(
         @Param('id') id:string

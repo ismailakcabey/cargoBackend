@@ -31,3 +31,11 @@ export interface UserExpenses extends mongoose.Document{
     createdDate:Date,
     userId:mongoose.Schema.Types.ObjectId,
 }
+
+export interface ExpensesExcel extends mongoose.Document{
+    id:string,
+    ExpensesType:number,
+    amount:number,
+    createdDate:Date,
+    userId:mongoose.Schema.Types.ObjectId,
+}

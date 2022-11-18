@@ -2,12 +2,15 @@ import { Injectable , NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model , ObjectId} from "mongoose";
 import { UserExpensesDto } from "./userExpenses.dto";
-import { UserExpenses } from "./userExpenses.model";
+import { UserExpenses , ExpensesExcel } from "./userExpenses.model";
+var fs = require('fs');
+const XLSX = require('xlsx')
 
 @Injectable()
 export class UserExpensesService {
   constructor(
-    @InjectModel('UserExpenses') private readonly userExpensesModel: Model<UserExpenses>
+    @InjectModel('UserExpenses') private readonly userExpensesModel: Model<UserExpenses>,
+    @InjectModel('UserExpenses') private readonly expensesExcel: Model<ExpensesExcel>
   ){}
 
   async insertExpenses(ExpensesType: number , createdDate: Date , amount: number , userId:ObjectId){
@@ -20,6 +23,41 @@ export class UserExpensesService {
     const result = await Expenses.save() 
     return result.id as string;
 }    
+
+    async getExcel(){
+    const expenses = await this.expensesExcel.find().exec();
+    return expenses.map(
+        expens=> ({
+            id: expens._id,
+            ExpensesType: expens.ExpensesType,
+            amount: expens.amount,
+            createdDate: expens.createdDate,
+            userId: expens.userId
+        })
+    )
+    }
+
+    async getAllExpensExcel(){
+        
+        const data = await this.getExcel()
+        
+        const workSheet = XLSX.utils.json_to_sheet(data);
+        const workBook = XLSX.utils.book_new();
+    
+        XLSX.utils.book_append_sheet(workBook, workSheet, "students")
+        // Generate buffer
+        XLSX.write(workBook, { bookType: 'xlsx', type: "buffer" })
+    
+        // Binary string
+        XLSX.write(workBook, { bookType: "xlsx", type: "binary" })
+    
+        XLSX.writeFile(workBook, "expenses.xlsx")
+        return {
+            status : true,
+            data : "successfully"
+
+        }
+    }
 
     async getExpenses(){
         const expenses = await this.userExpensesModel.find().exec();

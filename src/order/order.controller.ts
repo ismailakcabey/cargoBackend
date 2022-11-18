@@ -46,6 +46,7 @@ export class OrderController{
     @Get('/excel')
     async getOrderExcel(){
         const orders = await this.orderService.getAllOrderExcel();
+        return orders
     }
 
     @Get(':id')
